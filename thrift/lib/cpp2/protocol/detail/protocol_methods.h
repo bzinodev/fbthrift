@@ -631,8 +631,9 @@ struct protocol_methods<type_class::set<ElemClass>, Type> {
     if (!folly::is_detected_v<detect_key_compare, Type> &&
         protocol.kSortKeys()) {
       std::vector<typename Type::const_iterator> iters;
-      iters.reserve(out.size());
-      for (auto it = out.begin(); it != out.end(); ++it) {
+      auto n = out.size();
+      iters.reserve(n);
+      for (auto it = out.begin(); n != 0; --n, ++it) {
         iters.push_back(it);
       }
       std::sort(
@@ -747,8 +748,9 @@ struct protocol_methods<type_class::map<KeyClass, MappedClass>, Type> {
     if (!folly::is_detected_v<detect_key_compare, Type> &&
         protocol.kSortKeys()) {
       std::vector<typename Type::const_iterator> iters;
-      iters.reserve(out.size());
-      for (auto it = out.begin(); it != out.end(); ++it) {
+      auto n = out.size();
+      iters.reserve(n);
+      for (auto it = out.begin(); n != 0; --n, ++it) {
         iters.push_back(it);
       }
       std::sort(iters.begin(), iters.end(), [](auto a, auto b) {
